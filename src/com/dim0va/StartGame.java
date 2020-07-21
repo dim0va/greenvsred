@@ -22,6 +22,7 @@ public class StartGame {
 
         System.out.println(String.format("Enter %s elements (%s-digits long) of the grid: ", height, width));
 
+        //Initialize the arrays
         initialGrid = new int [width];
         grid = new int [width] [height];
 
@@ -45,16 +46,10 @@ public class StartGame {
         }
 
         transformGrid(initialGrid);
-
-        for (int[] row : grid) {
-            for (int digit : row) {
-                System.out.println(digit);
-            }
-        }
-
         startGame();
     }
 
+    //this method transform 1D-array (from the input) to 2D-array
     private void transformGrid (int [] initialGrid) {
         for (int row = 0; row < width; row++) {
             int number = initialGrid[row];
@@ -68,7 +63,6 @@ public class StartGame {
                 int digit = number/divider;
                 grid[row][col] = digit;
                 number %= divider;
-
                 divider /= 10;
             }
         }
@@ -76,9 +70,19 @@ public class StartGame {
 
     private void startGame() {
         int countGenerations = 0;
+        int countChanges = 0;
+        RedRule redRule = new RedRule(targetRow, targetCol, width, height);
+
         while (countGenerations<=numberOfGenerations) {
 
+            if(redRule.countSurroundingGreenNeighbours()==3 || redRule.countSurroundingGreenNeighbours()==6) {
+                grid[targetRow][targetCol] = 0;
+                countChanges++;
+            }
 
+            if(redRule.checkIfTargetCellIsOnTheSides()) {
+                //actions for side cell
+            }
         }
     }
 }
