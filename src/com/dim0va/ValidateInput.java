@@ -1,21 +1,29 @@
 package com.dim0va;
 
 public class ValidateInput {
-    private int width;
-    private int height;
+    private int cols;
+    private int rows;
+    private int targetCol;
+    private int targetRow;
 
-    public ValidateInput(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public ValidateInput(int cols, int rows, int targetCol, int targetRow) {
+        this.cols = cols;
+        this.rows = rows;
+        this.targetCol = targetCol;
+        this.targetRow = targetRow;
     }
 
     public boolean areElementsValid(String [] content) {
-        if(!isWidthAndHeightValid(width, height)) {
+        if(!isWidthAndHeightValid(cols, rows)) {
+            return false;
+        }
+
+        if(targetCol>cols || targetRow>rows) {
             return false;
         }
 
         for (String element : content) {
-            if(element.length() != width) {
+            if(element.length() != cols) {
                 return false;
             }
 

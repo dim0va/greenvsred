@@ -3,30 +3,30 @@ package com.dim0va;
 public class RedCellRule extends Rule {
     private int targetRow;
     private int targetCol;
-    private int [][] grid;
-    private int [][] mockGrid;
 
-    public RedCellRule(int targetRow, int targetCol, int [][] grid) {
+    public RedCellRule(int targetRow, int targetCol) {
         this.targetRow = targetRow;
         this.targetCol = targetCol;
-        this.grid = grid;
     }
 
     @Override
-    public Change applyRule(int row, int col) {
-        int countChanges = 0;
-        mockGrid = new int [grid.length][grid[0].length];
+    public Change applyRules(int row, int col, int[][] grid){
+        int timesBeenGreen = 0;
+        int [][] nextGrid = new int [grid.length][grid[0].length];
 
         int greenNeighbours = countSurroundingGreenNeighbours(row, col, grid);
+        System.out.println(String.format("(%s : %s) - %s", row, col, greenNeighbours));
 
         if (greenNeighbours == 3 || greenNeighbours == 6) {
-            mockGrid[row][col] = 1;
+            nextGrid[row][col] = 1;
 
             if (row == targetRow && col == targetCol) {
-                countChanges++;
+                timesBeenGreen++;
             }
+        } else {
+            nextGrid[row][col] = 0;
         }
 
-        return new Change(countChanges, mockGrid[row][col]);
+        return new Change(timesBeenGreen, nextGrid[row][col]);
     }
 }

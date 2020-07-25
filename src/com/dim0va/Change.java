@@ -1,19 +1,16 @@
 package com.dim0va;
 
 public class Change {
-    private int countChanges;
+    private int timesBeenGreen;
     private int element;
 
-    public Change(int countChanges, int element) {
-        this.countChanges = countChanges;
+    public Change(int timesBeenGreen, int element) {
+        this.timesBeenGreen = timesBeenGreen;
         this.element = element;
     }
 
-    public Change() {
-    }
-
-    public int getCountChanges() {
-        return countChanges;
+    public int getTimesBeenGreen() {
+        return timesBeenGreen;
     }
 
     public int getElement() {
