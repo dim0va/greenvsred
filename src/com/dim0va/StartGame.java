@@ -3,31 +3,33 @@ package com.dim0va;
 import java.util.Scanner;
 
 public class StartGame {
-    int width;
-    int height;
+    int columns;
+    int rows;
     int numberOfGenerations;
-    int [] initialGrid;
+    String [] initialGrid;
     int [][] grid;
+    int [][] mockGrid;
     int targetCol;
     int targetRow;
     Scanner scanner = new Scanner(System.in);
 
     public void init () {
 
-        System.out.print("Enter grid's width (<= height): ");
-        width = scanner.nextInt();
+        System.out.print("Enter the number of columns in the grid (<= height): ");
+        columns = scanner.nextInt();
 
-        System.out.print("Enter grid's height: ");
-        height = scanner.nextInt();
+        System.out.print("Enter the number of rows in the grid: ");
+        rows = scanner.nextInt();
 
-        System.out.println(String.format("Enter %s elements (%s-digits long) of the grid: ", height, width));
+        System.out.println(String.format("Enter %s elements (%s-digits long) of the grid: ", rows, columns));
 
         //Initialize the arrays
-        initialGrid = new int [width];
-        grid = new int [width] [height];
+        initialGrid = new String [rows];
+        grid = new int [rows][columns];
+        mockGrid = new int [rows][columns];
 
-        for(int i = 0; i < height; i++ ) {
-            initialGrid[i] = scanner.nextInt();
+        for(int i = 0; i < rows; i++ ) {
+            initialGrid[i] = scanner.next();
         }
 
         System.out.println("Enter coordinates of a cell in the grid: ");
@@ -37,52 +39,62 @@ public class StartGame {
         System.out.print("y: ");
         targetCol = scanner.nextInt();
 
-        System.out.print("Enter number of generations: ");
+        System.out.print("Enter a number of generations: ");
         numberOfGenerations = scanner.nextInt();
 
-        ValidateInputNumbers validator = new ValidateInputNumbers(width, height);
-        if(!validator.areNumbersValid(initialGrid)) {
-            System.err.println("Numbers you have entered are not valid! Try again!");
+        ValidateInput validator = new ValidateInput(columns, rows);
+
+        if(!validator.areElementsValid(initialGrid)) {
+            System.err.println("The elements that you have entered are not valid! Try again!");
+            return;
         }
 
-        transformGrid(initialGrid);
+        grid = transformGrid(initialGrid);
+
         startGame();
     }
 
-    //this method transform 1D-array (from the input) to 2D-array
-    private void transformGrid (int [] initialGrid) {
-        for (int row = 0; row < width; row++) {
-            int number = initialGrid[row];
+    //transforms 1D-array (from the input) to 2D-array
+    private int[][] transformGrid (String [] initialGrid) {
+        int[][] transformedGrid = new int[rows][columns];
 
-            int divider = 1;
-            for(int i=1; i<width; i++) {
-                divider = divider * 10;
-            }
-
-            for(int col = 0 ; col < height; col++) {
-                int digit = number/divider;
-                grid[row][col] = digit;
-                number %= divider;
-                divider /= 10;
+        //substringing the elements
+        for (int i = 0; i < initialGrid.length; i++) {
+            for(int j = 0, n = initialGrid[i].length() ; j < n ; j++) {
+                int element = Character.getNumericValue(initialGrid[i].charAt(j));
+                transformedGrid[i][j] = element;
             }
         }
+        return transformedGrid;
     }
 
     private void startGame() {
-        int countGenerations = 0;
+        RedCellRule redCellRule = new RedCellRule(targetRow, targetCol, grid);
+        GreenCellRule greenCellRule = new GreenCellRule(targetRow, targetCol, grid);
+
+        int generationsPassed = 0;
         int countChanges = 0;
-        RedRule redRule = new RedRule(targetRow, targetCol, width, height);
+        Change change;
 
-        while (countGenerations<=numberOfGenerations) {
+        while (generationsPassed < numberOfGenerations) {
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < columns; col++) {
 
-            if(redRule.countSurroundingGreenNeighbours()==3 || redRule.countSurroundingGreenNeighbours()==6) {
-                grid[targetRow][targetCol] = 0;
-                countChanges++;
+                    if(grid[row][col]==1) {
+                        change = greenCellRule.applyRule(row, col);
+                    } else {
+                        change = redCellRule.applyRule(row, col);
+                    }
+
+                    mockGrid[row][col] = change.getElement();
+                    countChanges = change.getCountChanges();
+                }
             }
-
-            if(redRule.checkIfTargetCellIsOnTheSides()) {
-                //actions for side cell
-            }
+            generationsPassed++;
+            grid = mockGrid;
         }
+
+        System.out.println(String.format("The cell with coordinates (%s : %s) has changed to green cell %s times",
+                targetRow, targetCol, countChanges));
     }
 }
