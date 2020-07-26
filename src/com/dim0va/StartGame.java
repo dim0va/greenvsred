@@ -1,7 +1,5 @@
 package com.dim0va;
 
-import java.util.Scanner;
-
 public class StartGame {
     private int columns;
     private int rows;
@@ -10,52 +8,34 @@ public class StartGame {
     private int numberOfGenerations;
     private String [] initialGrid;
     private int [][] grid;
-    private Scanner scanner = new Scanner(System.in);
+
+    public StartGame(int columns, int rows, int targetCol, int targetRow, int numberOfGenerations,
+                     String[] initialGrid, int[][] grid) {
+        this.columns = columns;
+        this.rows = rows;
+        this.targetCol = targetCol;
+        this.targetRow = targetRow;
+        this.numberOfGenerations = numberOfGenerations;
+        this.initialGrid = initialGrid;
+        this.grid = grid;
+    }
 
     public void generationZero() {
+        ValidateInput validateInput = new ValidateInput(columns, rows, targetCol, targetRow);
 
-        System.out.print("Enter the number of columns in the grid (<= rows): ");
-        columns = scanner.nextInt();
-
-        System.out.print("Enter the number of rows in the grid: ");
-        rows = scanner.nextInt();
-
-        System.out.println(String.format("Enter %s elements (%s-digits long) of the grid: ", rows, columns));
-
-        //Initialize the arrays
-        initialGrid = new String [rows];
-        grid = new int [rows][columns];
-
-        for(int i = 0; i < rows; i++ ) {
-            initialGrid[i] = scanner.next();
-        }
-
-        System.out.println("Enter coordinates of a cell in the grid (row:column): ");
-        System.out.print("x: ");
-        targetRow = scanner.nextInt();
-
-        System.out.print("y: ");
-        targetCol = scanner.nextInt();
-
-        System.out.print("Enter a number of generations: ");
-        numberOfGenerations = scanner.nextInt();
-
-        ValidateInput validator = new ValidateInput(columns, rows, targetCol, targetRow);
-
-        if(!validator.areElementsValid(initialGrid)) {
+        if(!validateInput.areElementsValid(initialGrid)) {
             System.err.println("The elements that you have entered are not valid! Try again!");
             return;
         }
 
         grid = transformGrid(initialGrid);
-        startGame();
     }
 
     //transforms 1D-array (from the input) to 2D-array
     private int[][] transformGrid (String [] initialGrid) {
         int[][] transformedGrid = new int[rows][columns];
 
-        //substringing the elements
+        //putting each char of every string element of the initialGrid to a 2d-array (matrix)
         for (int i = 0; i < initialGrid.length; i++) {
             for(int j = 0, n = initialGrid[i].length() ; j < n ; j++) {
                 int element = Character.getNumericValue(initialGrid[i].charAt(j));
@@ -65,7 +45,7 @@ public class StartGame {
         return transformedGrid;
     }
 
-    private void startGame() {
+    public void startGame() {
         Rule redCellRule = new RedCellRule(targetRow, targetCol);
         Rule greenCellRule = new GreenCellRule(targetRow, targetCol);
 
@@ -73,31 +53,47 @@ public class StartGame {
         int timesBeenGreen = 0;
         NewElement newElement;
 
+        //check the target cell's initial value if it's one
         if(grid[targetRow][targetCol]==1) {
             timesBeenGreen = 1;
         }
 
+        //while loop to keep track of passed generations
         while (generationsPassed < numberOfGenerations) {
+            //buffer matrix for storing values for the next generation
             int [][] nextGrid = new int [rows][columns];
 
+            //going through each element of the matrix
             for (int row = 0; row < rows; row++) {
-
                 for (int col = 0; col < columns; col++) {
 
+                    //checking the value of the element
+                    //depending on the value a different set of rules are applied
                     if(grid[row][col] == 1) {
+
+                        //an object of type NewElement is return
                         newElement = greenCellRule.applyRules(row, col, grid);
                     } else {
                         newElement = redCellRule.applyRules(row, col, grid);
                     }
 
+                    //storing the new value in the buffer matrix
                     nextGrid[row][col] = newElement.getElement();
+
+                    //and increase the amount of time the target cell was green
                     timesBeenGreen += newElement.getTimesBeenGreen();
                 }
             }
+
+            //mark that the generation has been passed
             generationsPassed++;
+
+            //after we have gone through each element of the original matrix
+            //and predict what would be the value of each cell in the next generation
+            //we give the grid the new values from the buffer matrix
+            //and continue working with them in the next generation
             grid = nextGrid.clone();
         }
-
 
         System.out.println(String.format("The cell with coordinates (%s : %s) was green %s times during the generations (including Generation Zero)",
                 targetRow, targetCol, timesBeenGreen));

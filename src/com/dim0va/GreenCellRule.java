@@ -11,19 +11,23 @@ public class GreenCellRule extends Rule {
 
     @Override
     public NewElement applyRules(int row, int col, int[][] grid) {
+        //declare and initialize a buffer matrix to store the new values in
         int [][] nextGrid = new int [grid.length][grid[0].length];
         int timesBeenGreen = 0;
 
+        //check for green neighbours
         int greenNeighbours = countSurroundingGreenNeighbours(row, col, grid);
-        System.out.println(String.format("(%s : %s) - %s", row, col, greenNeighbours));
 
         if (greenNeighbours == 2 || greenNeighbours == 3 || greenNeighbours == 6) {
+            //stays green
             nextGrid[row][col] = 1;
 
+            //if the cell is the target cell, we increase the amount of time that it has been green
             if (row == targetRow && col == targetCol) {
                 timesBeenGreen++;
             }
         } else {
+            //else becomes red
             nextGrid[row][col] = 0;
         }
 
