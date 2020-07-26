@@ -1,16 +1,16 @@
 package com.dim0va;
 
 public class NewElement {
-    private int timesBeenGreen;
+    private boolean isGreen;
     private int element;
 
-    public NewElement(int timesBeenGreen, int element) {
-        this.timesBeenGreen = timesBeenGreen;
+    public NewElement(boolean isGreen, int element) {
+        this.isGreen = isGreen;
         this.element = element;
     }
 
-    public int getTimesBeenGreen() {
-        return timesBeenGreen;
+    public boolean getGreen() {
+        return isGreen;
     }
 
     public int getElement() {

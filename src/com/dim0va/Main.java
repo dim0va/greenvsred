@@ -34,9 +34,9 @@ public class Main {
         System.out.print("Enter a number of generations: ");
         int numberOfGenerations = scanner.nextInt();
 
-        StartGame startGame = new StartGame(columns, rows, targetCol, targetRow, numberOfGenerations,
+        Game game = new Game(columns, rows, targetCol, targetRow, numberOfGenerations,
                                             initialGrid, grid);
-        startGame.generationZero();
-        startGame.startGame();
+        game.createGenerationZero();
+        game.start();
     }
 }

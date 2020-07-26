@@ -1,21 +1,3 @@
 
-U	java:S106$"9Replace this use of System.out or System.err by a logger.(†ğÇ©8¶Òƒ®¸.
-Z	java:S106R"9Replace this use of System.out or System.err by a logger.(’¹ş“ÿÿÿÿÿ8çÁ´¸.
-Z	java:S106w"9Replace this use of System.out or System.err by a logger.(²öÎÈÿÿÿÿÿ8Õ•ª´¸.
-Z	java:S106l"9Replace this use of System.out or System.err by a logger.(×¨ÆÈşÿÿÿÿ8‹³…´¸.
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(ŠÁ¸’øÿÿÿÿ8¶Òƒ®¸.
-Z	java:S106#"9Replace this use of System.out or System.err by a logger.(ëÔİıÿÿÿÿ8ÒÁê‹·.
-U	java:S106"9Replace this use of System.out or System.err by a logger.(ÿÌ’Ö8¶Òƒ®¸.
-Z	java:S106'"9Replace this use of System.out or System.err by a logger.(ÀõÊòüÿÿÿÿ8¶Òƒ®¸.
-U	java:S106"9Replace this use of System.out or System.err by a logger.(¯ç¬¢8¶Òƒ®¸.
-o
-java:S3776F"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(æôÈ8•Å”·¸.
-Z	java:S106n"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8‹³…´¸.
-U	java:S106*"9Replace this use of System.out or System.err by a logger.(†¢Úç8¶Òƒ®¸.
-Z	java:S106U"9Replace this use of System.out or System.err by a logger.(×¨ÆÈşÿÿÿÿ8çÁ´¸.
-Z	java:S106Y"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8çÁ´¸.
-v
-java:S1450"ZRemove the "initialGrid" field and declare it as a local variable in the relevant methods.(ï£(8Ûó¦·¸.
-U	java:S1060"9Replace this use of System.out or System.err by a logger.(ÄÒö¾8¶Òƒ®¸.
-Z	java:S106W"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8çÁ´¸.
-Z	java:S106p"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8ëº«®¸.
+Z	java:S106b"9Replace this use of System.out or System.err by a logger.(¡óÿİúÿÿÿÿ8êÃæÛ¸.
+U	java:S106"9Replace this use of System.out or System.err by a logger.(ÄÒö¾8êÃæÛ¸.

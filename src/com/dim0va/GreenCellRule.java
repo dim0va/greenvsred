@@ -13,7 +13,7 @@ public class GreenCellRule extends Rule {
     public NewElement applyRules(int row, int col, int[][] grid) {
         //declare and initialize a buffer matrix to store the new values in
         int [][] nextGrid = new int [grid.length][grid[0].length];
-        int timesBeenGreen = 0;
+        boolean isGreen = false;
 
         //check for green neighbours
         int greenNeighbours = countSurroundingGreenNeighbours(row, col, grid);
@@ -24,14 +24,14 @@ public class GreenCellRule extends Rule {
 
             //if the cell is the target cell, we increase the amount of time that it has been green
             if (row == targetRow && col == targetCol) {
-                timesBeenGreen++;
+                isGreen = true;
             }
         } else {
             //else becomes red
             nextGrid[row][col] = 0;
         }
 
-        return new NewElement(timesBeenGreen, nextGrid[row][col]);
+        return new NewElement(isGreen, nextGrid[row][col]);
     }
 }
 

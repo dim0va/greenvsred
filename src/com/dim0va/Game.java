@@ -1,6 +1,6 @@
 package com.dim0va;
 
-public class StartGame {
+public class Game {
     private int columns;
     private int rows;
     private int targetCol;
@@ -9,8 +9,8 @@ public class StartGame {
     private String [] initialGrid;
     private int [][] grid;
 
-    public StartGame(int columns, int rows, int targetCol, int targetRow, int numberOfGenerations,
-                     String[] initialGrid, int[][] grid) {
+    public Game(int columns, int rows, int targetCol, int targetRow, int numberOfGenerations,
+                String[] initialGrid, int[][] grid) {
         this.columns = columns;
         this.rows = rows;
         this.targetCol = targetCol;
@@ -20,7 +20,7 @@ public class StartGame {
         this.grid = grid;
     }
 
-    public void generationZero() {
+    public void createGenerationZero() {
         ValidateInput validateInput = new ValidateInput(columns, rows, targetCol, targetRow);
 
         if(!validateInput.areElementsValid(initialGrid)) {
@@ -45,7 +45,7 @@ public class StartGame {
         return transformedGrid;
     }
 
-    public void startGame() {
+    public void start() {
         Rule redCellRule = new RedCellRule(targetRow, targetCol);
         Rule greenCellRule = new GreenCellRule(targetRow, targetCol);
 
@@ -81,7 +81,9 @@ public class StartGame {
                     nextGrid[row][col] = newElement.getElement();
 
                     //and increase the amount of time the target cell was green
-                    timesBeenGreen += newElement.getTimesBeenGreen();
+                    if(newElement.getGreen()) {
+                        timesBeenGreen ++;
+                    }
                 }
             }
 
