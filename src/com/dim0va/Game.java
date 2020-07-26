@@ -86,12 +86,9 @@ public class Game {
                     }
                 }
             }
-
             //mark that the generation has been passed
             generationsPassed++;
 
-            //after we have gone through each element of the original matrix
-            //and predict what would be the value of each cell in the next generation
             //we give the grid the new values from the buffer matrix
             //and continue working with them in the next generation
             grid = nextGrid.clone();
