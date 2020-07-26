@@ -1,10 +1,10 @@
 package com.dim0va;
 
-public class Change {
+public class NewElement {
     private int timesBeenGreen;
     private int element;
 
-    public Change(int timesBeenGreen, int element) {
+    public NewElement(int timesBeenGreen, int element) {
         this.timesBeenGreen = timesBeenGreen;
         this.element = element;
     }

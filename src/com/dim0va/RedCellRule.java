@@ -10,7 +10,7 @@ public class RedCellRule extends Rule {
     }
 
     @Override
-    public Change applyRules(int row, int col, int[][] grid){
+    public NewElement applyRules(int row, int col, int[][] grid){
         int timesBeenGreen = 0;
         int [][] nextGrid = new int [grid.length][grid[0].length];
 
@@ -27,6 +27,6 @@ public class RedCellRule extends Rule {
             nextGrid[row][col] = 0;
         }
 
-        return new Change(timesBeenGreen, nextGrid[row][col]);
+        return new NewElement(timesBeenGreen, nextGrid[row][col]);
     }
 }

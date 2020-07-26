@@ -18,7 +18,7 @@ public class ValidateInput {
             return false;
         }
 
-        if(targetCol>cols || targetRow>rows) {
+        if(targetCol>(cols-1) || targetRow>(rows-1)) {
             return false;
         }
 

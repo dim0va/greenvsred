@@ -10,12 +10,11 @@ public class StartGame {
     private int numberOfGenerations;
     private String [] initialGrid;
     private int [][] grid;
-    private int [][] nextGrid;
     private Scanner scanner = new Scanner(System.in);
 
-    public void init () {
+    public void generationZero() {
 
-        System.out.print("Enter the number of columns in the grid (<= height): ");
+        System.out.print("Enter the number of columns in the grid (<= rows): ");
         columns = scanner.nextInt();
 
         System.out.print("Enter the number of rows in the grid: ");
@@ -26,13 +25,12 @@ public class StartGame {
         //Initialize the arrays
         initialGrid = new String [rows];
         grid = new int [rows][columns];
-        nextGrid = new int [rows][columns];
 
         for(int i = 0; i < rows; i++ ) {
             initialGrid[i] = scanner.next();
         }
 
-        System.out.println("Enter coordinates of a cell in the grid: ");
+        System.out.println("Enter coordinates of a cell in the grid (row:column): ");
         System.out.print("x: ");
         targetRow = scanner.nextInt();
 
@@ -73,50 +71,35 @@ public class StartGame {
 
         int generationsPassed = 0;
         int timesBeenGreen = 0;
-        Change change;
+        NewElement newElement;
 
         if(grid[targetRow][targetCol]==1) {
             timesBeenGreen = 1;
         }
 
-        System.out.println("Initial: ");
-        for (int [] element : grid ) {
-            for ( int element2 : element) {
-                System.out.print(element2);
-            }
-            System.out.println();
-        }
-        System.out.println();
-
         while (generationsPassed < numberOfGenerations) {
+            int [][] nextGrid = new int [rows][columns];
+
             for (int row = 0; row < rows; row++) {
+
                 for (int col = 0; col < columns; col++) {
 
                     if(grid[row][col] == 1) {
-                        change = greenCellRule.applyRules(row, col, grid);
+                        newElement = greenCellRule.applyRules(row, col, grid);
                     } else {
-                        change = redCellRule.applyRules(row, col, grid);
+                        newElement = redCellRule.applyRules(row, col, grid);
                     }
 
-                    nextGrid[row][col] = change.getElement();
-                    timesBeenGreen += change.getTimesBeenGreen();
+                    nextGrid[row][col] = newElement.getElement();
+                    timesBeenGreen += newElement.getTimesBeenGreen();
                 }
             }
-
-            for (int [] element : nextGrid) {
-                for ( int element2 : element) {
-                    System.out.print(element2);
-                }
-                System.out.println();
-            }
-            System.out.println();
-
             generationsPassed++;
             grid = nextGrid.clone();
         }
 
 
-        System.out.println(String.format("The cell with coordinates (%s : %s) was green %s times (including its initial value)",
+        System.out.println(String.format("The cell with coordinates (%s : %s) was green %s times during the generations (including Generation Zero)",
                 targetRow, targetCol, timesBeenGreen));
     }
 }

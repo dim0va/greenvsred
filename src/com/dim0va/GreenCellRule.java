@@ -10,26 +10,24 @@ public class GreenCellRule extends Rule {
     }
 
     @Override
-    public Change applyRules(int row, int col, int[][] grid) {
-        int timesBeenGreen = 0;
+    public NewElement applyRules(int row, int col, int[][] grid) {
         int [][] nextGrid = new int [grid.length][grid[0].length];
+        int timesBeenGreen = 0;
 
         int greenNeighbours = countSurroundingGreenNeighbours(row, col, grid);
         System.out.println(String.format("(%s : %s) - %s", row, col, greenNeighbours));
 
-        if (greenNeighbours == 0 || greenNeighbours == 1 || greenNeighbours == 4
-                || greenNeighbours == 5 || greenNeighbours == 7 || greenNeighbours == 8) {
-
-            nextGrid[row][col] = 0;
-        } else {
+        if (greenNeighbours == 2 || greenNeighbours == 3 || greenNeighbours == 6) {
             nextGrid[row][col] = 1;
 
             if (row == targetRow && col == targetCol) {
                 timesBeenGreen++;
             }
+        } else {
+            nextGrid[row][col] = 0;
         }
 
-        return new Change(timesBeenGreen, nextGrid[row][col]);
+        return new NewElement(timesBeenGreen, nextGrid[row][col]);
     }
 }
 

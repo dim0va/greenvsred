@@ -31,5 +31,5 @@ public abstract class Rule {
         return greenNeighbours;
     }
 
-    public abstract Change applyRules(int row, int col, int[][] grid);
+    public abstract NewElement applyRules(int row, int col, int[][] grid);
 }
